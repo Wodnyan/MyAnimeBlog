@@ -1,0 +1,30 @@
+.header {
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.searchForm {
+  width: 200px;
+  margin-left: auto;
+  transition: all 0.7s ease;
+  &:focus-within {
+    width: 500px;
+  }
+}
+
+.nav {
+  ul.navList {
+    list-style-type: none;
+    margin-left: 1rem;
+    .navList__item {
+      display: inline;
+      margin-left: 1rem;
+    }
+  }
+}
+
+button.button {
+  margin-left: 1rem;
+}
