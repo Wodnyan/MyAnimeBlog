@@ -2,10 +2,14 @@
   padding: 1rem;
   width: 400px;
   .media {
-    height: 150px;
+    height: 200px;
   }
 }
 
 .postInformation {
   display: flex;
+  align-items: center;
+  .avatar {
+    margin-right: 0.5rem;
+  }
 }

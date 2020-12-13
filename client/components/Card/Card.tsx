@@ -5,33 +5,76 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import styles from "./Card.module.scss";
 import Avatar from "@material-ui/core/Avatar";
+import { useRouter } from "next/router";
 
-export default function BlogPostCard() {
+interface PostInformationProps {
+  avatarUrl?: string;
+  createdAt: string;
+  author: string;
+}
+
+interface BlogPostCardProps {
+  id: number;
+  avatarUrl?: string;
+  createdAt: string;
+  author: string;
+  title: string;
+  description: string;
+  bannerUrl: string;
+}
+
+const BlogPostCard: React.FC<BlogPostCardProps> = ({
+  id,
+  avatarUrl,
+  createdAt,
+  author,
+  title,
+  description,
+  bannerUrl,
+}) => {
+  const router = useRouter();
+  const goToBlogPost = () => router.push("/post/" + id);
+
   return (
     <Card className={styles.card}>
-      <CardActionArea>
-        <CardMedia
-          className={styles.media}
-          image="https://www.tvovermind.com/wp-content/uploads/2018/12/Gabriel-DropOut.jpeg"
-          title="Bruh"
-        />
+      <CardActionArea onClick={goToBlogPost}>
+        <CardMedia className={styles.media} image={bannerUrl} title={title} />
         <CardContent>
-          <Typography>New Gabriel Dropout season announced</Typography>
-          <PostInformation />
+          <Typography variant="h5" component="h1">
+            {title}
+          </Typography>
+          <PostInformation
+            avatarUrl={avatarUrl}
+            createdAt={createdAt}
+            author={author}
+          />
+          <Typography color="textSecondary" variant="body1" component="p">
+            {description}
+          </Typography>
         </CardContent>
       </CardActionArea>
     </Card>
   );
-}
+};
 
-export const PostInformation = () => {
+export const PostInformation: React.FC<PostInformationProps> = ({
+  author,
+  createdAt,
+  avatarUrl,
+}) => {
   return (
-    <div>
-      <Avatar
-        alt="avatar"
-        src="https://avatars1.githubusercontent.com/u/52217740?s=400&u=ef08f5742fa07f01e340728cef3893126c857938&v=4"
-      />
-      <div></div>
+    <div className={styles.postInformation}>
+      <Avatar alt="avatar" src={avatarUrl} className={styles.avatar} />
+      <div>
+        <Typography variant="subtitle1" component="div">
+          {author}
+        </Typography>
+        <Typography variant="caption" component="div">
+          {createdAt}
+        </Typography>
+      </div>
     </div>
   );
 };
+
+export default BlogPostCard;
