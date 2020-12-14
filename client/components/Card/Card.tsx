@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import styles from "./Card.module.scss";
 import Avatar from "@material-ui/core/Avatar";
 import { useRouter } from "next/router";
+import toHumanReadable from "../../lib/timestampToHuman";
 
 interface PostInformationProps {
   avatarUrl?: string;
@@ -33,7 +34,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
   bannerUrl,
 }) => {
   const router = useRouter();
-  const goToBlogPost = () => router.push("/post/" + id);
+  const goToBlogPost = () => router.push("/posts/" + id);
 
   return (
     <Card className={styles.card}>
@@ -70,7 +71,7 @@ export const PostInformation: React.FC<PostInformationProps> = ({
           {author}
         </Typography>
         <Typography variant="caption" component="div">
-          {createdAt}
+          {toHumanReadable(createdAt)}
         </Typography>
       </div>
     </div>
