@@ -19,6 +19,6 @@ export const getAllPostIds = async () => {
 };
 
 export const getOnePost = async (id: number) => {
-  const res = await fetch(`${API_ENDPOINT}/posts/${id}/`);
-  return await res.json();
+  const res = await fetch(`${API_ENDPOINT}/posts/${id}`);
+  return res.json();
 };
