@@ -1,0 +1,21 @@
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1230px) {
+  .gridContainer {
+    grid-template-columns: 1fr 1fr;
+    max-width: calc(800px + 1rem);
+  }
+}
+
+@media (max-width: 830px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+}
+

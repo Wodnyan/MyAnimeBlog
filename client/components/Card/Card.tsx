@@ -4,15 +4,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import styles from "./Card.module.scss";
-import Avatar from "@material-ui/core/Avatar";
 import { useRouter } from "next/router";
-import toHumanReadable from "../../lib/timestampToHuman";
-
-interface PostInformationProps {
-  avatarUrl?: string;
-  createdAt: string;
-  author: string;
-}
+import UserInfo from "../UserInfo/UserInfo";
 
 interface BlogPostCardProps {
   id: number;
@@ -44,10 +37,11 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
           <Typography variant="h5" component="h1">
             {title}
           </Typography>
-          <PostInformation
+          <UserInfo
             avatarUrl={avatarUrl}
             createdAt={createdAt}
             author={author}
+            card
           />
           <Typography color="textSecondary" variant="body1" component="p">
             {description}
@@ -55,26 +49,6 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({
         </CardContent>
       </CardActionArea>
     </Card>
-  );
-};
-
-export const PostInformation: React.FC<PostInformationProps> = ({
-  author,
-  createdAt,
-  avatarUrl,
-}) => {
-  return (
-    <div className={styles.postInformation}>
-      <Avatar alt="avatar" src={avatarUrl} className={styles.avatar} />
-      <div>
-        <Typography variant="subtitle1" component="div">
-          {author}
-        </Typography>
-        <Typography variant="caption" component="div">
-          {toHumanReadable(createdAt)}
-        </Typography>
-      </div>
-    </div>
   );
 };
 
