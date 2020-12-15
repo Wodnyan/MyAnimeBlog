@@ -7,16 +7,22 @@ import Search from "@material-ui/icons/Search";
 import AppBar from "@material-ui/core/AppBar";
 import ToolBar from "@material-ui/core/Toolbar";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import Link from "next/link";
 
 export default function Header() {
   return (
     <header className={styles.header}>
       <AppBar position="fixed">
         <ToolBar>
-          <Typography variant="h5" component="h1">
-            MyAnimeBlog
-          </Typography>
-          <Nav />
+          <Link href="/" passHref>
+            <Typography
+              className={styles.homeLink}
+              variant="h5"
+              component="a"
+            >
+              MyAnimeBlog
+            </Typography>
+          </Link>
           <SearchForm />
           <SignInButton />
         </ToolBar>
@@ -25,25 +31,12 @@ export default function Header() {
   );
 }
 
-export const Nav = () => {
-  const NavListItem = ({ children }) => (
-    <li className={styles.navList__item}>{children}</li>
-  );
-
-  return (
-    <nav className={styles.nav}>
-      <ul className={styles.navList}>
-        <NavListItem>Home</NavListItem>
-        <NavListItem>Posts</NavListItem>
-      </ul>
-    </nav>
-  );
-};
-
 export const SignInButton = () => (
-  <Button color="inherit" className={styles.button}>
-    Sign in
-  </Button>
+  <Link href="/auth/sign-in/" passHref>
+    <Button color="inherit" className={styles.button}>
+      Sign in
+    </Button>
+  </Link>
 );
 
 export const SearchForm = () => {
