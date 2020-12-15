@@ -1,24 +1,9 @@
+import Post from "../../components/Post/Post";
+import { Post as PostType } from "../../types";
 import { getAllPostIds, getOnePost } from "../../lib/api/posts";
-import timestampToHumanReadable from "../../lib/timestampToHuman";
-import UserInfo from "../../components/UserInfo/UserInfo";
 
 const BlogPost = ({ post }) => {
-  return (
-    <div>
-      <img src={post.banner_image_url} />
-      <div>
-        <h1>{post.title}</h1>
-        <p>{post.description}</p>
-        <p>{timestampToHumanReadable(post.created_at)}</p>
-      </div>
-      <div>
-        <UserInfo
-          author={post.author || "Test"}
-        />
-      </div>
-      <div>{post.body}</div>
-    </div>
-  );
+  return <Post post={post} />;
 };
 
 export async function getStaticPaths() {
@@ -31,7 +16,17 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const { id } = params;
-  const post = await getOnePost(id);
+  const res = await getOnePost(id);
+  const post = {
+    id: res.id,
+    createdAt: res.created_at,
+    title: res.title,
+    description: res.description,
+    body: res.body,
+    author: res.author || "Test",
+    bannerImgUrl: res.banner_image_url,
+    teaserImgUrl: res.teaser_image_url,
+  };
   return {
     props: {
       post,
