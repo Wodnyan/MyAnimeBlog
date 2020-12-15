@@ -1,6 +1,6 @@
 import { getAllPostIds, getOnePost } from "../../lib/api/posts";
-import Avatar from "@material-ui/core/Avatar";
 import timestampToHumanReadable from "../../lib/timestampToHuman";
+import UserInfo from "../../components/UserInfo/UserInfo";
 
 const BlogPost = ({ post }) => {
   return (
@@ -12,8 +12,9 @@ const BlogPost = ({ post }) => {
         <p>{timestampToHumanReadable(post.created_at)}</p>
       </div>
       <div>
-        <Avatar />
-        <h1>Sam Thorogood</h1>
+        <UserInfo
+          author={post.author || "Test"}
+        />
       </div>
       <div>{post.body}</div>
     </div>
