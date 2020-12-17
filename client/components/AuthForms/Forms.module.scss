@@ -1,0 +1,22 @@
+div.inputContainer {
+  display: block;
+  margin: 1rem 0;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  max-width: 600px;
+  width: 100%;
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

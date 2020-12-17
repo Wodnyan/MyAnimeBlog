@@ -7,7 +7,12 @@
 }
 
 body,
-html {
+html,
+#__next {
   height: 100%;
   font-family: "Roboto", sans-serif;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
