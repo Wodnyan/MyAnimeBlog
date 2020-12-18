@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'unz0ybsckw%assb5n7@gr_i6l+b*f*6$xw_3k=zi!7p0lv)n&7'
+REFRESH_TOKEN_SECRET = "bruh"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,8 +40,26 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "rest_framework",
+    "corsheaders",
+    "accounts.apps.AccountsConfig",
     "posts.apps.PostsConfig"
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'accounts.authentication.SafeJWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
+
+CORS_ALLOW_CREDENTIALS = True # to accept cookies via ajax request
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000' # the domain for front-end app(you can add more than 1) 
+]
+
+AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,6 +72,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'src.urls'
+
 
 TEMPLATES = [
     {
