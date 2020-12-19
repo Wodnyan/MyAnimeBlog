@@ -64,9 +64,7 @@ def login(request):
     access_token = generate_access_token(serialized_user)
     refresh_token = generate_refresh_token(serialized_user)
 
-    print(access_token, refresh_token)
-
-    response.set_cookie(key="refreshtoken", value=refresh_token, httponly=True)
+    response.set_cookie(key="refresh_token", secure=False, value=refresh_token, max_age=100000000, samesite=None, httponly=True)
     response.data = {
         "access_token": access_token,
         "user": serialized_user,
