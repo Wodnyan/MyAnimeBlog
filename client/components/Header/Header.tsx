@@ -32,7 +32,7 @@ export default function Header() {
 }
 
 export const SignInButton = () => (
-  <Link href="/auth/sign-in/" passHref>
+  <Link href="/auth/login/" passHref>
     <Button color="inherit" className={styles.button}>
       Sign in
     </Button>

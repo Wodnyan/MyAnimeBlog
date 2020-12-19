@@ -3,6 +3,7 @@ import { ChangeEvent, useState } from "react";
 import Button from "@material-ui/core/Button";
 import Link from "next/link";
 import { EmailInput, PasswordInput, UsernameInput } from "./Inputs";
+import { register } from "../../lib/api/auth";
 
 interface Inputs {
   username: string;
@@ -26,10 +27,20 @@ const SignUpForm = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(inputs);
+    try {
+      const { data } = await register(
+        inputs.username,
+        inputs.email,
+        inputs.password
+      );
+      sessionStorage.setItem("access_token", data.access_token);
+    } catch (error) {
+      console.log(error.response);
+    }
   };
+
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <UsernameInput value={inputs.username} onChange={handleChange} />
