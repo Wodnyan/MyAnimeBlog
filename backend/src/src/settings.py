@@ -55,13 +55,15 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_CREDENTIALS = True # to accept cookies via ajax request
+
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000' # the domain for front-end app(you can add more than 1) 
+    "http://localhost:3000" # the domain for front-end app(you can add more than 1) 
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

@@ -7,34 +7,41 @@ from rest_framework.decorators import api_view, permission_classes
 from .serializers import UserSerializer
 from django.contrib.auth.hashers import make_password
 from .utils import generate_access_token, generate_refresh_token
+from django.views.decorators.csrf import ensure_csrf_cookie
+
 
 @api_view(['GET'])
 def profile(request):
     user = request.user
     serialized_user = UserSerializer(user).data
-    return Response({'user': serialized_user })
+    return Response({'user': serialized_user})
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
+@ensure_csrf_cookie
 def register(request):
+    response = Response()
     serialized_user = UserSerializer(data=request.data)
-    response = Response();
+    if not request.data["password"]:
+        raise exceptions.ValidationError("Password is required")
     if serialized_user.is_valid():
         password = make_password(request.data["password"])
         serialized_user.save(password=password)
+
         access_token = generate_access_token(serialized_user.data)
         refresh_token = generate_refresh_token(serialized_user.data)
-        print(access_token, refresh_token)
+
         response.data = {
             "user": serialized_user.data,
             "access_token": access_token,
         }
         response.status_code = status.HTTP_201_CREATED
-        response.set_cookie(key="refreshtoken", value=refresh_token, httponly=True)
+        response.set_cookie(key="refresh_token", secure=False, value=refresh_token, max_age=100000000, samesite=None, httponly=True)
         return response
     response.data = serialized_user.errors
     response.status_code = status.HTTP_400_BAD_REQUEST
     return response
+
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
@@ -44,7 +51,8 @@ def login(request):
     password = request.data.get("password")
     response = Response()
     if (email is None) or (password is None):
-        raise exceptions.AuthenticationFailed("username and password are required")
+        raise exceptions.AuthenticationFailed(
+            "username and password are required")
 
     user = User.objects.filter(email=email).first()
     if(user is None):
@@ -56,7 +64,7 @@ def login(request):
     access_token = generate_access_token(serialized_user)
     refresh_token = generate_refresh_token(serialized_user)
 
-    print(access_token,refresh_token)
+    print(access_token, refresh_token)
 
     response.set_cookie(key="refreshtoken", value=refresh_token, httponly=True)
     response.data = {
