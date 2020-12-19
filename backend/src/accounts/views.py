@@ -8,6 +8,7 @@ from .serializers import UserSerializer
 from django.contrib.auth.hashers import make_password
 from .utils import generate_access_token, generate_refresh_token
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.db.models import Q
 
 
 @api_view(['GET'])
@@ -48,13 +49,16 @@ def register(request):
 def login(request):
     User = get_user_model()
     email = request.data.get("email")
+    username = request.data.get("username")
     password = request.data.get("password")
     response = Response()
-    if (email is None) or (password is None):
+    if (email is None and username is None) or (password is None):
         raise exceptions.AuthenticationFailed(
-            "username and password are required")
+            "username/email and password are required")
 
-    user = User.objects.filter(email=email).first()
+    user = User.objects.get(
+        Q(email=email) | Q(username=username)
+    )
     if(user is None):
         raise exceptions.AuthenticationFailed("user not found")
     if (not user.check_password(password)):
