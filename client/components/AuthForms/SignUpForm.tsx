@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import Link from "next/link";
 import { EmailInput, PasswordInput, UsernameInput } from "./Inputs";
 import { register } from "../../lib/api/auth";
+import { useRouter } from "next/router";
 
 interface Inputs {
   username: string;
@@ -17,6 +18,7 @@ const SignUpForm = () => {
     password: "",
     username: "",
   });
+  const router = useRouter();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const targetId = e.currentTarget.id;
@@ -36,6 +38,7 @@ const SignUpForm = () => {
         inputs.password
       );
       sessionStorage.setItem("access_token", data.access_token);
+      router.push("/");
     } catch (error) {
       console.log(error.response);
     }
