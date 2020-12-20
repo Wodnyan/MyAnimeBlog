@@ -83,3 +83,22 @@ export const UsernameInput: React.FC<Props> = ({ value, onChange }) => {
     </FormControl>
   );
 };
+
+export const UsernameEmailInput: React.FC<Props> = ({ value, onChange }) => {
+  return (
+    <FormControl className={styles.inputContainer}>
+      <InputLabel htmlFor="identifier">Username/Email</InputLabel>
+      <Input
+        id="identifier"
+        value={value}
+        onChange={onChange}
+        fullWidth
+        startAdornment={
+          <InputAdornment position="start">
+            <AccountCircle />
+          </InputAdornment>
+        }
+      />
+    </FormControl>
+  );
+};

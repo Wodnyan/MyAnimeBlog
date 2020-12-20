@@ -37,7 +37,7 @@ def register(request):
             "access_token": access_token,
         }
         response.status_code = status.HTTP_201_CREATED
-        response.set_cookie(key="refresh_token", secure=False, value=refresh_token, max_age=100000000, samesite=None, httponly=True)
+        response.set_cookie(key="refresh_token", secure=True, value=refresh_token, max_age=100000000, samesite=None, httponly=True)
         return response
     response.data = serialized_user.errors
     response.status_code = status.HTTP_400_BAD_REQUEST
@@ -46,20 +46,21 @@ def register(request):
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
+@ensure_csrf_cookie
 def login(request):
     User = get_user_model()
-    email = request.data.get("email")
-    username = request.data.get("username")
+    identifier = request.data.get("identifier")
     password = request.data.get("password")
     response = Response()
-    if (email is None and username is None) or (password is None):
+    if (identifier is None) or (password is None):
         raise exceptions.AuthenticationFailed(
             "username/email and password are required")
 
-    user = User.objects.get(
-        Q(email=email) | Q(username=username)
-    )
-    if(user is None):
+    try:
+        user = User.objects.get(
+            Q(email=identifier) | Q(username=identifier)
+        )
+    except:
         raise exceptions.AuthenticationFailed("user not found")
     if (not user.check_password(password)):
         raise exceptions.AuthenticationFailed("wrong password")
@@ -68,9 +69,9 @@ def login(request):
     access_token = generate_access_token(serialized_user)
     refresh_token = generate_refresh_token(serialized_user)
 
-    response.set_cookie(key="refresh_token", secure=False, value=refresh_token, max_age=100000000, samesite=None, httponly=True)
     response.data = {
         "access_token": access_token,
         "user": serialized_user,
     }
+    response.set_cookie(key="refresh_token", secure=True, value=refresh_token, max_age=100000000, samesite=None, httponly=True)
     return response
