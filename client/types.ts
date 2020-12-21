@@ -8,3 +8,9 @@ export interface Post {
   bannerImgUrl: string;
   teaserImgUrl: string;
 }
+
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+}

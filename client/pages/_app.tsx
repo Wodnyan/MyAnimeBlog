@@ -1,9 +1,11 @@
 import "../styles/global.scss";
 import Head from "next/head";
+import { Provider } from "react-redux";
+import store from "../redux/";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
+    <Provider store={store}>
       <Head>
         <title>MAB</title>
         <link
@@ -12,7 +14,7 @@ function MyApp({ Component, pageProps }) {
         />
       </Head>
       <Component {...pageProps} />
-    </>
+    </Provider>
   );
 }
 

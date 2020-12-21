@@ -8,28 +8,35 @@ import AppBar from "@material-ui/core/AppBar";
 import ToolBar from "@material-ui/core/Toolbar";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Link from "next/link";
+import { connect, useSelector } from "react-redux";
+import { addUser } from "../../redux/user/actions";
 
-export default function Header() {
+function Header({ user }) {
+  console.log(user);
   return (
     <header className={styles.header}>
       <AppBar position="fixed">
         <ToolBar>
           <Link href="/" passHref>
-            <Typography
-              className={styles.homeLink}
-              variant="h5"
-              component="a"
-            >
+            <Typography className={styles.homeLink} variant="h5" component="a">
               MyAnimeBlog
             </Typography>
           </Link>
           <SearchForm />
-          <SignInButton />
+          {user === null ? <SignInButton /> : <CreateNewPost />}
         </ToolBar>
       </AppBar>
     </header>
   );
 }
+
+export const CreateNewPost = () => (
+  <Link href="/auth/login/" passHref>
+    <Button color="inherit" className={styles.button}>
+      Create new post
+    </Button>
+  </Link>
+);
 
 export const SignInButton = () => (
   <Link href="/auth/login/" passHref>
@@ -64,3 +71,11 @@ export const SearchForm = () => {
     </form>
   );
 };
+
+const mapStateToProps = (state: any) => {
+  return { user: state.users };
+};
+
+export default connect(mapStateToProps, {
+  addUser,
+})(Header);
