@@ -8,7 +8,7 @@ import AppBar from "@material-ui/core/AppBar";
 import ToolBar from "@material-ui/core/Toolbar";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Link from "next/link";
-import { connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import { addUser } from "../../redux/user/actions";
 
 function Header({ user }) {
@@ -31,7 +31,7 @@ function Header({ user }) {
 }
 
 export const CreateNewPost = () => (
-  <Link href="/auth/login/" passHref>
+  <Link href="/posts/create" passHref>
     <Button color="inherit" className={styles.button}>
       Create new post
     </Button>
